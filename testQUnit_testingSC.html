@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mortgage Calculator - QUnit</title>
+  <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-1.23.1.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script src="https://code.jquery.com/qunit/qunit-1.23.1.js"></script>
+  <script src="mortgage_calculator.js" type="text/javascript"></script>
+    
+ 
+<script> 
+ QUnit.test('Payment Calculate test', function (assert) {
+   let months = 12;
+   let yearRate = 1200;
+   assert.strictEqual(cusPaymentCalculate(600000, 30*months, 4/yearRate), "Your mortgage payment will be  $2864.49.", 'Test -b1, positive case');
+   assert.strictEqual(cusPaymentCalculate(599999, 25*months, 4.445/yearRate), "Your mortgage payment will be  $3316.29.", 'Test, positive case');
+   assert.strictEqual(cusPaymentCalculate(199999.999, 22.2222*months, 1.44/yearRate), "Your mortgage payment will be  $876.84.", 'Test, positive case');
+   assert.strictEqual(cusPaymentCalculate(100, 2*months, 9/yearRate), "Your mortgage payment will be  $4.57.", 'Test, positive case');
+   assert.strictEqual(cusPaymentCalculate(100000000, 30*months, 10/yearRate), "Your mortgage payment will be  $877571.57.", 'Test, positive case');
+   assert.strictEqual(cusPaymentCalculate(100000000, 30*months, 10/yearRate), "Your mortgage payment will be  $877571.57.", 'Test, positive case');
+   assert.strictEqual(cusPaymentCalculate(100000000, 100*months, 0.004/yearRate), "Your mortgage payment will be  $83500.25.", 'Test, positive case');
+   assert.strictEqual(cusPaymentCalculate(0.1, 1000*months, 100/yearRate), "Your mortgage payment will be  $0.01.", 'Test, positive case');
+ });
+
+ QUnit.test('input Validate Loan test', function (assert) {
+   assert.strictEqual(inputValidateLoan(2000), "", ' as user put $2000 loan should not raise error message');
+   assert.strictEqual(inputValidateLoan(0), "Loan - Positive Numeric value required. Example: 165000", ' as user put $0 loan should raise error message');
+   assert.strictEqual(inputValidateLoan(-20), "Loan - Positive Numeric value required. Example: 165000", ' as user put -$20 loan should raise error message');
+   assert.strictEqual(inputValidateLoan(null), "Loan - Numeric value required. Example: 165000", ' as user put null loan should raise error message');
+   assert.strictEqual(inputValidateLoan(" "), "Loan - Numeric value required. Example: 165000", ' as user put empty loan should raise error message');
+ });
+
+ QUnit.test('input Validate Year test', function (assert) {
+   assert.strictEqual(inputValidateYear(30), "", 'as user put 30 years should not raise error message');
+   assert.strictEqual(inputValidateYear(-30), "Years - Positive Numeric value required. Example: 20", 'as user put -30 years should raise error message');
+   assert.strictEqual(inputValidateYear(null), "Years - Numeric value required. Example: 20", 'as user put null years should raise error message');
+   assert.strictEqual(inputValidateYear(0), "Years - Positive Numeric value required. Example: 20", 'as user put 0 years should raise error message');
+   assert.strictEqual(inputValidateYear(" "), "Years - Numeric value required. Example: 20", 'as user put empty years should raise error message');
+   assert.strictEqual(inputValidateYear(100), "Years - cannot over 30 years", 'as user put 100 years should raise error message');
+ });
+
+ QUnit.test('input Validate Rate test', function (assert) {
+   assert.strictEqual(inputValidateRate(4), "", ' as user put  Rate 4 should not raise error message');
+   assert.strictEqual(inputValidateRate(-4), "Rate - Positive Numeric value required. Example: 5.25", 'as user put Rate -4 should raise error message');
+   assert.strictEqual(inputValidateRate(null), "Rate - Numeric value required. Example: 5.25", 'as user put null Rate should raise error message');
+   assert.strictEqual(inputValidateRate(0), "Rate - Positive Numeric value required. Example: 5.25", 'as user put Rate 0 should raise error message');
+   assert.strictEqual(inputValidateRate(" "), "Rate - Numeric value required. Example: 5.25", 'as user put empty Rate should raise error message');
+ });
+</script>
+</body>
+</html>

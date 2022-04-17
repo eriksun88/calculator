@@ -53,53 +53,67 @@ function cusPayment()
 		interest = document.mortgagecalc.rate.value / 1200;
 		result = cusPaymentCalculate(loanprincipal,  months, interest);
 		// Calculate mortgage payment and display result
-		document.getElementById('monthlyPayment').innerHTML = result;		
+		document.getElementById('monthlyPayment').innerHTML = result;
+		document.getElementById('friendlyReminder').style.display = 'block';
 	} 
 	else	
 	{
-		document.getElementById('monthlyPayment').innerHTML = document.getElementById('monthlyPayment').innerHTML + '<br>' ;		
-	}	
-
-	document.getElementById('friendlyReminder').style.display = 'block';
+		document.getElementById('monthlyPayment').innerHTML = '<br>' ;
+	}
 }
 
 function cusPaymentCalculate(loanprincipal,  months, interestPerMonth)
 {	var res = '';
-		// Calculate mortgage payment and display result
+	// Calculate mortgage payment and display result
 	res = 'Your mortgage payment will be ' + ' $' + (loanprincipal * interestPerMonth / (1 - (Math.pow((1 + interestPerMonth), -months)))).toFixed(2)+'.';
 	return res;
 }
 
 
 
-function  inputValidateLoan (inputLoan, inputLoanLeng) {
+function  inputValidateLoan (inputLoan) {
 	var msg='';	
 	// Form validation checking
-	if ((inputLoan === null) || (inputLoanLeng === 0) || (isNaN(inputLoan) === true))
+	if ((inputLoan === null) || (isNaN(inputLoan) === true) || (inputLoan.toString().trim() === "") )
 	{
-		msg = ' Loan - Numeric value required. Example: 165000';				
-	} 	
+		msg = 'Loan - Numeric value required. Example: 165000';
+	} else if (inputLoan <= 0) {
+		msg = 'Loan - Positive Numeric value required. Example: 165000';
+	}
 	return msg;
 }
 
 
-function  inputValidateYear (inputYears, inputYearsLeng ) {
+function  inputValidateYear (inputYears ) {
 	var msg='';	
 	// Form validation checking	
-	if ((inputYears === null) || (inputYearsLeng === 0) || (isNaN(inputYears) === true))
+	if ((inputYears === null) || (inputYears.toString().trim() === "") || (isNaN(inputYears) === true))
 	{
 		msg = 'Years - Numeric value required. Example: 20';
-	} 	
+	}
+    else if (inputYears <= 0)
+	{
+		msg = 'Years - Positive Numeric value required. Example: 20';
+	}
+	else if (inputYears>30)
+	{
+		msg = 'Years - cannot over 30 years';
+	}
+
 	return msg;
 
 }
 
-function inputValidateRate (inputRate, inputRateLeng ) {
+function inputValidateRate (inputRate ) {
 	var msg='';	
-	if (( inputRate=== null) || (inputRateLeng === 0) || (isNaN(inputRate) === true))
+	if (( inputRate=== null) || (inputRate.toString().trim() === "") || (isNaN(inputRate) === true))
 	{
 		msg = 'Rate - Numeric value required. Example: 5.25';			
-	} 	
+	}
+	else if (inputRate <= 0)
+	{
+		msg = 'Rate - Positive Numeric value required. Example: 5.25';
+	}
 	return msg;
 }
 
